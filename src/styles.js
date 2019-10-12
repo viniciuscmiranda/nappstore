@@ -1,17 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-export const Container = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const Content = styled.div`
-  width: 100%;
-  max-width: 400px;
-  margin: 30px;
-  background: #fff;
-  border-radius: 4px;
-  padding: 20px;
+export const Container = styled.main`
+    max-width: 90%;
+    width: 960px;
+    margin: 32px auto;
+    padding: 32px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 `;
