@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import styled from 'styled-components';
 
 export const Title = styled.h1`
     width: 100%;
@@ -12,6 +11,7 @@ export const TableLayout = styled.table`
     width: 100%;
     padding: 4px;
     table-layout: fixed;
+    margin-bottom: 32px;
 `;
 
 export const TableHeader = styled.th`
@@ -20,4 +20,9 @@ export const TableHeader = styled.th`
     padding: 4px;
     width: 25%;
     max-width: 25%;
+`;
+
+export const TableData = styled.td `
+    padding: 4px;
+    text-align: center;
 `;

@@ -1,21 +1,43 @@
 import React, {Component} from 'react';
-import {Title, TableLayout, TableHeader} from './styles';
-import TableContent from '../TableContent'
-
+import {Link} from 'react-router-dom';
 import api from '../../services/api';
+
+
+import {Title, TableLayout, TableHeader} from '../../styles/tableStyles';
+import TableContent from './TableContent';
+import {NewButton} from '../../styles/styles'
+
 
 export default class Home extends Component {
     state = {
         salesFromDatabase: []
     };
 
-    async componentDidMount(){
+    async componentDidMount() {
         const data = await api.get('/sales');
-       
-        this.setState({
-            salesFromDatabase: data.data
-        })
+        const newData = await this.setClientNames(data.data);
+
+        this.setState({salesFromDatabase: newData});
     };
+
+    //Get client name from database
+    setClientNames = async sales => {
+        const aux = sales.map(async sale => {
+            const c = await api.get(`/clients/${sale.clientId}`);
+            sale.clientName = c.data.name;
+        });
+
+        await Promise.all(aux);
+        return sales;
+    }
+
+    //Delete sale
+    deleteSaleHandler = async id => {
+        api.delete(`/sales/${id}`);
+        
+        const item = document.getElementById(id);
+        item.parentNode.removeChild(item);
+    }
 
     render() {
         const {salesFromDatabase} = this.state;
@@ -32,8 +54,10 @@ export default class Home extends Component {
                             <TableHeader>Ações</TableHeader>
                         </tr>
                     </thead>
-                    <TableContent sales={salesFromDatabase} />
+                    <TableContent sales={salesFromDatabase} onDelete={this.deleteSaleHandler}/>
                 </TableLayout>
+
+                <Link to="sales/new"><NewButton>Cadastrar Venda</NewButton></Link>
             </section>
         );
     }
