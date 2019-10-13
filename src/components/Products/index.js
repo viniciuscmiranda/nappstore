@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import api from '../../services/api';
+import {Link} from 'react-router-dom';
 import {SyncLoader} from 'react-spinners'
-
 import {TableLayout, TableHeader} from '../../styles/tableStyles';
-import TableContent from './TableContent';
 import {Title, NewButton, NoConnection, Loader} from '../../styles/styles';
+import TableContent from './TableContent';
 
 export default class Products extends Component {
+    // State
     state = {
         productsFromDatabase: [],
         loading: true,
         connection: true
     };
 
+    // Get prodcuts from api
     async componentDidMount() {
         try {
             const data = await api.get('/products');
@@ -23,13 +24,12 @@ export default class Products extends Component {
         }
     };
 
-    //Delete product
+    //Delete product from database
     deleteProductHandler = async id => {
         api.delete(`/products/${id}`);
+        //Remove from table
         const item = document.getElementById(id);
-        item
-            .parentNode
-            .removeChild(item);
+        item.parentNode.removeChild(item);
     }
 
     render() {
@@ -39,12 +39,14 @@ export default class Products extends Component {
             <section>
                 <Title>Produtos</Title>
 
+                {/* Connection error */}
                 {!connection && (<NoConnection/>)}
-                {loading && (
-                    <Loader><SyncLoader/></Loader>
-                )}
+                {/* While loading */}
+                {loading && (<Loader><SyncLoader/></Loader>)}
 
+                {/* If connected and not loading */}
                 {(connection && !loading) && (
+                    // Render Table
                     <TableLayout>
                         <thead>
                             <tr>
@@ -54,21 +56,15 @@ export default class Products extends Component {
                                 <TableHeader>Registro</TableHeader>
                                 <TableHeader>Ações</TableHeader>
                             </tr>
-                            <tr>
-                                <th>
-                                    <br></br>
-                                </th>
-                            </tr>
+                            <tr><th><br></br></th></tr>
                         </thead>
-                        <TableContent
-                            products={productsFromDatabase}
-                            onDelete={this.deleteProductHandler}/>
+                        {/* Table Content */}
+                        <TableContent products={productsFromDatabase} onDelete={this.deleteProductHandler}/>
                     </TableLayout>
                 )}
 
-                <Link to="products/new">
-                    <NewButton>Cadastrar Produto</NewButton>
-                </Link>
+                {/* Go to new product */}
+                <Link to="products/new"><NewButton>Cadastrar Produto</NewButton></Link>
             </section>
         );
     }

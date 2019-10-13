@@ -1,6 +1,7 @@
 import styled, {css} from 'styled-components';
 import {Link} from 'react-router-dom';
 
+// Loading component
 export const Loader = styled.div `
     width: 100%;
     height: 100px;
@@ -9,6 +10,7 @@ export const Loader = styled.div `
     align-items: center;
 `;
 
+// Success message
 export const Success = styled.div `
     width: 100%;
     display: flex;
@@ -24,7 +26,6 @@ export const Success = styled.div `
         content: "Cadastrado com sucesso!";
     }
     
-
     .link{
         text-decoration: none;
         &:hover, &:focus, &:focus-within{
@@ -41,11 +42,12 @@ export const Success = styled.div `
 
 `;
 
+//Error message layout
 const errorMessage = css ` 
     width: 100%;
     display: flex;
     margin: 32px auto;
-    &::before{
+    &::before, span{
         color: darkred;
         text-align: center;
         font-size: 16px;
@@ -55,6 +57,7 @@ const errorMessage = css `
     }
 `
 
+//No connection error message
 export const NoConnection = styled.div `
     ${errorMessage}
     &::before{
@@ -62,6 +65,7 @@ export const NoConnection = styled.div `
     }
 `;
 
+//Missing fileds error message
 export const Missing = styled.div `
     ${errorMessage}
     &::before{
@@ -69,6 +73,12 @@ export const Missing = styled.div `
     }
 `;
 
+//Custom error message
+export const CustomError = styled.div `
+    ${errorMessage}
+`;
+
+//Section title style
 export const Title = styled.h1 `
     width: 100%;
     font-size: 16px;
@@ -76,6 +86,42 @@ export const Title = styled.h1 `
     margin-bottom: 16px;
 `;
 
+//Custom link
+export const LinkStyled = styled(Link)`
+    color: black;
+    text-decoration: none;
+
+    &:hover, &:focus, &:focus-within{
+      font-weight: bold;
+    }
+`;
+
+//Link layout
+const buttonLinkStyle = css `
+    color: rgba(0,0,0,.3);
+    *{
+        color: rgba(0,0,0,.3);
+        font-size: 24px;
+    }
+    &:hover, &:focus, &:focus-within{
+        color: black;
+        *{
+            color: black;
+            transition: color .2s ease-in;
+        }
+}`
+
+//Delete button Style
+export const ButtonDelete = styled.button `
+    ${buttonLinkStyle}
+    border:none;
+    background: none; 
+    cursor: pointer;
+`;
+
+export const LinkButton = styled(Link)`${buttonLinkStyle}`;
+
+//Button layout
 const button = css `
     padding: 16px 24px;
     border: none;
@@ -92,39 +138,26 @@ const button = css `
     }
 `;
 
+//Buttons Style
 export const NewButton = styled.button `${button}`;
 export const SendButton = styled.input `${button}`;
 
-export const LinkStyled = styled(Link)`
-    color: black;
-    text-decoration: none;
+//FormLabelItem
+export const FormLabelItem = styled.span`
+    display: flex;
+    flex-direction: column;
 
-    &:hover, &:focus, &:focus-within{
-      font-weight: bold;
+    span{
+        margin-bottom: 8px;
     }
-`;
 
-const buttonLinkStyle = css ` color: rgba(0,0,0,.3);
-*{
-    color: rgba(0,0,0,.3);
-    font-size: 24px;
-}
-
-&:hover, &:focus, &:focus-within{
-    color: black;
-    *{
+    input{
+        width: 100%;
+        background: none;
+        border: none;
+        border-bottom: 1px solid lightgray;
+        font-size: 18px;
         color: black;
-        transition: color .2s ease-in;
+        margin-bottom: 32px;
     }
-}`
-
-export const ButtonDelete = styled.button `
-    ${buttonLinkStyle}
-    border:none;
-    background: none; 
-    cursor: pointer;
-`;
-
-export const LinkButton = styled(Link)`${buttonLinkStyle}
-   
 `;

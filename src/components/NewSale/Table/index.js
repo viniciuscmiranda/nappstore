@@ -3,6 +3,7 @@ import {TableData, TableHeader} from '../../../styles/tableStyles';
 import {TableContainer} from './styles';
 import {MdDelete} from 'react-icons/md';
 import {ButtonDelete} from '../../../styles/styles';
+import { getRentability } from '../../../rules';
 
 export default class Table extends Component {
     getPrice = (price) => {
@@ -14,21 +15,11 @@ export default class Table extends Component {
 
     setRentabiliy = (originalPrice, id) => {
         const rentInput = document.getElementById(`${id}-rent`);
-        const price = document
-            .getElementById(`${id}-price`)
-            .value;
+        const newPrice = document.getElementById(`${id}-price`).value;
 
-        if (price > originalPrice) {
-            rentInput.innerHTML = "Ótima";
-            rentInput.style.color = "green";
-        } else if (price > (originalPrice * 0.9) && price <= originalPrice) {
-            rentInput.innerHTML = "Boa";
-            rentInput.style.color = "darkblue";
-        } else if (price < originalPrice) {
-            rentInput.innerHTML = "Ruim";
-            rentInput.style.color = "darkred";
-
-        }
+        const rentabiliy = getRentability(originalPrice, newPrice);
+        rentInput.innerHTML = rentabiliy.rent;
+        rentInput.style.color = rentabiliy.color;
     }
 
     render() {
@@ -42,7 +33,7 @@ export default class Table extends Component {
                         .length && (
                         <tr>
                             <TableHeader>Nome</TableHeader>
-                            <TableHeader>Preço Sugerido</TableHeader>
+                            <TableHeader>Sugerido</TableHeader>
                             <TableHeader>Preço</TableHeader>
                             <TableHeader>Rentabilidade</TableHeader>
                             <TableHeader>Quantidade</TableHeader>
@@ -74,11 +65,7 @@ export default class Table extends Component {
                                     step="0.01"/></TableData>
                                 <TableData>
                                     <strong>
-                                        <span
-                                            id={`${prod._id}-rent`}
-                                            style={{
-                                            color: 'darkblue'
-                                        }}>Boa</span>
+                                        <span id={`${prod._id}-rent`} style={{color: getRentability(1,1).color}}>{getRentability(1,1).rent}</span>
                                     </strong>
                                 </TableData>
                                 <TableData><input

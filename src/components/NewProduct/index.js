@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
+import api from '../../services/api';
+import {Link} from 'react-router-dom'
+import {SyncLoader} from 'react-spinners'
 import {
     SendButton,
     Title,
     NoConnection,
     Loader,
     Missing,
-    Success
+    Success,
+    FormLabelItem
 } from '../../styles/styles';
-import {LabelItem} from './styles';
-import api from '../../services/api';
-import {Link} from 'react-router-dom'
-import {SyncLoader} from 'react-spinners'
+
 
 export default class NewProduct extends Component {
+    //State
     state = {
         loading: false,
         connection: true,
@@ -20,29 +22,33 @@ export default class NewProduct extends Component {
         success: false
     }
 
+    //Send form to api
     handleSubmit = e => {
+        //Stop form
         e.preventDefault();
-        this.setState({connection: true, missing: false});
+        //Reset state
+        this.setState({connection: true, missing: false, success: false});
 
+        //Check for empty fields
         if (e.target.name.value === "" || e.target.price.value === "" || e.target.multiple.value === "") {
             this.setState({missing: true, connection: true})
             return;
         }
 
+        // Set loading state
         this.setState({loading: true});
 
+        //Send data to api
         api.post('/newproduct', {
             name: e.target.name.value,
             price: parseFloat(e.target.price.value),
             multiple: parseInt(e.target.multiple.value)
         }).then(() => {
-            alert("Cadastrado com sucesso!");
             this.setState({success: true, loading: false});
-           
-            e.target.name.value = "";
-            e.target.price.value = "";
-            e.target.multiple.value = "";
+            // Empty fields           
+            document.getElementById("form").reset(); 
         }, (e) => {
+            // Catch
             this.setState({connection: false, loading: false});
         });
     }
@@ -53,34 +59,34 @@ export default class NewProduct extends Component {
         return (
             <section>
                 <Title>Novo Produto</Title>
-                {loading && (
-                    <Loader><SyncLoader/></Loader>
-                )}
-                {success && (
-                    <Success>
-                        <Link to="/products" className="link"/>
-                    </Success>
-                )}
-                {success && (<Link to='/products'/>)}
+                {/* Registered */}
+                {success && (<Success><Link to="/products" className="link"/></Success>)}
+                
+                {/* While loading  */}
+                {loading && (<Loader><SyncLoader/></Loader>)}
 
+                {/* Connection error */}
                 {!connection && (<NoConnection/>)}
+
+                {/* Missing fields */}
                 {missing && (<Missing/>)}
 
-                <form onSubmit={this.handleSubmit}>
-                    <LabelItem>
+                {/* Render form  */}
+                <form onSubmit={this.handleSubmit} id="form">
+                    <FormLabelItem>
                         <span>Nome</span>
-                        <input type="text" name="name"/>
-                    </LabelItem>
+                        <input type="text" name="name" required/>
+                    </FormLabelItem>
 
-                    <LabelItem>
+                    <FormLabelItem>
                         <span>Preço</span>
-                        <input type="number" step="0.01" name="price"/>
-                    </LabelItem>
+                        <input type="number" step="0.01" name="price" required/>
+                    </FormLabelItem>
 
-                    <LabelItem>
+                    <FormLabelItem>
                         <span>Múltiplo</span>
-                        <input type="number" step="1" name="multiple"/>
-                    </LabelItem>
+                        <input type="number" step="1" name="multiple" required/>
+                    </FormLabelItem>
 
                     <SendButton type="submit" value="Cadastrar"/>
                 </form>

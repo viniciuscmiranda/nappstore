@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {SendButton, Title, NoConnection, Loader, Missing, Success} from '../../styles/styles';
-import {LabelItem} from './styles';
-import {SyncLoader} from 'react-spinners'
 import api from '../../services/api';
+import {SyncLoader} from 'react-spinners'
 import {Link} from 'react-router-dom'
+import {SendButton, Title, NoConnection, Loader, Missing, Success, FormLabelItem} from '../../styles/styles';
+
 
 export default class NewProduct extends Component {
+    //State
     state = {
         loading: false,
         connection: true,
@@ -13,25 +14,30 @@ export default class NewProduct extends Component {
         success: false
     }
 
+    //Send form to api
     handleSubmit = async e => {
+        //Stop form
         e.preventDefault();
-        this.setState({connection: true, missing: false});
+        //Reset state
+        this.setState({connection: true, missing: false, success: false});
 
+        //Check for empty fields
         if (e.target.name.value === "") {
             this.setState({missing: true, connection: true});
             return;
         }
 
+        // Set loading state
         this.setState({loading: true});
 
-        api
-            .post('/newclient', {name: e.target.name.value})
-            .then(() => {
-                alert("Cadastrado com sucesso!");
+        //Send data to api
+        api.post('/newclient', {name: e.target.name.value})
+            .then(() => {       
                 this.setState({success: true, loading: false});
-
-                e.target.name.value = "";
+                // Empty fields
+                document.getElementById("form").reset(); 
             }, (e) => {
+                // Catch
                 this.setState({connection: false, loading: false});
             });
     }
@@ -41,24 +47,25 @@ export default class NewProduct extends Component {
 
         return (
             <section>
-                {success && (
-                <Success>
-                    <Link to="/clients" className="link"/>
-                </Success>)}
-
                 <Title>Novo Cliente</Title>
-                {loading && (
-                    <Loader><SyncLoader/></Loader>
-                )}
+                {/* Registered */}
+                {success && (<Success><Link to="/clients" className="link"/></Success>)}
+
+                {/* While loading */}
+                {loading && (<Loader><SyncLoader/></Loader>)}
+
+                {/* Connection error */}
                 {!connection && (<NoConnection/>)}
+
+                {/* Missing fields */}
                 {missing && (<Missing/>)}
 
-                <form onSubmit={this.handleSubmit}>
-                    <LabelItem>
+                {/* Render form */}
+                <form onSubmit={this.handleSubmit} id="form">
+                    <FormLabelItem>
                         <span>Nome</span>
-                        <input type="text" name="name"/>
-                    </LabelItem>
-
+                        <input type="text" name="name" required/>
+                    </FormLabelItem>
                     <SendButton type="submit" value="Cadastrar"/>
                 </form>
             </section>

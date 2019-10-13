@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import api from '../../services/api';
 import {SyncLoader} from 'react-spinners'
-
+import {Link} from 'react-router-dom';
 import {TableLayout, TableHeader} from '../../styles/tableStyles';
-import TableContent from './TableContent';
 import {Title, NewButton, NoConnection, Loader} from '../../styles/styles';
+import TableContent from './TableContent';
+
 
 export default class Clients extends Component {
+    // State
     state = {
         clientsFromDatabase: [],
         loading: true,
@@ -16,6 +17,7 @@ export default class Clients extends Component {
 
     async componentDidMount() {
         try {
+            // Get clients from server
             const data = await api.get('/clients');
             this.setState({clientsFromDatabase: data.data, loading: false, connection: true});
         } catch {
@@ -23,13 +25,12 @@ export default class Clients extends Component {
         }
     };
 
-    //Delete client
+    //Delete client from database
     deleteClientHandler = async id => {
         api.delete(`/clients/${id}`);
+        //Remove from table
         const item = document.getElementById(id);
-        item
-            .parentNode
-            .removeChild(item);
+        item.parentNode.removeChild(item);
     }
 
     render() {
@@ -39,12 +40,15 @@ export default class Clients extends Component {
             <section>
                 <Title>Clientes</Title>
 
+                {/* Connection Error */}
                 {!connection && (<NoConnection/>)}
-                {loading && (
-                    <Loader><SyncLoader/></Loader>
-                )}
+                
+                {/* While Loading */}
+                {loading && (<Loader><SyncLoader/></Loader>)}
 
+                {/* If connected and not Loading */}
                 {(connection && !loading) && (
+                    // Render Table
                     <TableLayout>
                         <thead>
                             <tr>
@@ -52,21 +56,15 @@ export default class Clients extends Component {
                                 <TableHeader>Registro</TableHeader>
                                 <TableHeader>Ações</TableHeader>
                             </tr>
-                            <tr>
-                                <th>
-                                    <br></br>
-                                </th>
-                            </tr>
+                            <tr><th><br></br></th></tr>
                         </thead>
-                        <TableContent
-                            clients={clientsFromDatabase}
-                            onDelete={this.deleteClientHandler}/>
+                        {/* Table Content */}
+                        <TableContent clients={clientsFromDatabase} onDelete={this.deleteClientHandler}/>
                     </TableLayout>
                 )}
 
-                <Link to="clients/new">
-                    <NewButton>Cadastrar Cliente</NewButton>
-                </Link>
+                {/*  Go to new client */}
+                <Link to="clients/new"><NewButton>Cadastrar Cliente</NewButton></Link>
             </section>
         );
     }

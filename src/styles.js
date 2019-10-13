@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+//Main container
 export const Container = styled.main`
     max-width: 90%;
     width: 960px;

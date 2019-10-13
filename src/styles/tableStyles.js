@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+//Table styles
 export const TableLayout = styled.table`
     width: 100%;
     padding: 4px;

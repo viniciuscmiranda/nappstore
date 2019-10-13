@@ -2,6 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 import "react-circular-progressbar/dist/styles.css";
 
+// Global Styles
 export default createGlobalStyle`
   * {
     margin: 0;

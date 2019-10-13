@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import api from '../../services/api';
+import {Link} from 'react-router-dom';
 import {SyncLoader} from 'react-spinners'
-
 import {TableLayout, TableHeader} from '../../styles/tableStyles';
-import TableContent from './TableContent';
 import {Title, NewButton, NoConnection, Loader} from '../../styles/styles';
+import TableContent from './TableContent';
 
 export default class Home extends Component {
+    // State
     state = {
         salesFromDatabase: [],
         loading: true,
@@ -15,6 +15,7 @@ export default class Home extends Component {
     };
 
     async componentDidMount() {
+        // Get Sales from database
         try {
             const data = await api.get('/sales');
             const newData = await this.setClientNames(data.data);
@@ -26,27 +27,24 @@ export default class Home extends Component {
 
     //Get client name from database
     setClientNames = async sales => {
-        const aux = sales.map(async sale => {
+        // If client match client id from sale, get name
+        const prom = sales.map(async sale => {
             const c = await api.get(`/clients/${sale.clientId}`);
-            if (c.data !== null) 
-                sale.clientName = c.data.name;
-            else 
-                sale.clientName = "Not Found";
+            if (c.data !== null) sale.clientName = c.data.name;
+            else sale.clientName = "Not Found";
             }
         );
 
-        await Promise.all(aux);
+        await Promise.all(prom);
         return sales;
     }
 
-    //Delete sale
+    //Delete sale from database
     deleteSaleHandler = async id => {
         api.delete(`/sales/${id}`);
-
+        // Remove from table
         const item = document.getElementById(id);
-        item
-            .parentNode
-            .removeChild(item);
+        item.parentNode.removeChild(item);
     }
 
     render() {
@@ -56,13 +54,15 @@ export default class Home extends Component {
             <section>
                 <Title>Vendas</Title>
 
+                {/* Connection error */}
                 {!connection && (<NoConnection/>)}
-                {loading && (
-                    <Loader><SyncLoader/></Loader>
-                )}
 
+                {/* While loading */}
+                {loading && (<Loader><SyncLoader/></Loader>)}
+
+                {/* If connected and not loading */}
                 {(connection && !loading) && (
-
+                    // Render table
                     <TableLayout>
                         <thead>
                             <tr>
@@ -71,26 +71,16 @@ export default class Home extends Component {
                                 <TableHeader>Data</TableHeader>
                                 <TableHeader>Ações</TableHeader>
                             </tr>
-                            <tr>
-                                <th>
-                                    <br></br>
-                                </th>
-                            </tr>
+                            <tr><th><br></br></th></tr>
                         </thead>
-                        {loading && (
-                            <tbody className="loader">
-                                <tr>
-                                    <td><SyncLoader/></td>
-                                </tr>
-                            </tbody>
-                        )}
+
+                        {/* Table content */}
                         <TableContent sales={salesFromDatabase} onDelete={this.deleteSaleHandler}/>
                     </TableLayout>
                 )}
 
-                <Link to="sales/new">
-                    <NewButton>Cadastrar Venda</NewButton>
-                </Link>
+                {/* Go to new sale */}
+                <Link to="sales/new"><NewButton>Cadastrar Venda</NewButton></Link>
             </section>
         );
     }
