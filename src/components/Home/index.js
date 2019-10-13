@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import api from '../../services/api';
-
+import {SyncLoader} from 'react-spinners'
 
 import {Title, TableLayout, TableHeader} from '../../styles/tableStyles';
 import TableContent from './TableContent';
@@ -10,21 +10,23 @@ import {NewButton} from '../../styles/styles'
 
 export default class Home extends Component {
     state = {
-        salesFromDatabase: []
+        salesFromDatabase: [],
+        loading: true
     };
 
     async componentDidMount() {
         const data = await api.get('/sales');
         const newData = await this.setClientNames(data.data);
 
-        this.setState({salesFromDatabase: newData});
+        this.setState({salesFromDatabase: newData, loading: false});
     };
 
     //Get client name from database
     setClientNames = async sales => {
         const aux = sales.map(async sale => {
             const c = await api.get(`/clients/${sale.clientId}`);
-            sale.clientName = c.data.name;
+            if(c.data !== null) sale.clientName = c.data.name;
+            else sale.clientName = "Not Found";
         });
 
         await Promise.all(aux);
@@ -40,11 +42,12 @@ export default class Home extends Component {
     }
 
     render() {
-        const {salesFromDatabase} = this.state;
+        const {salesFromDatabase, loading} = this.state;
 
         return (
             <section>
                 <Title>Vendas</Title>
+
                 <TableLayout>
                     <thead>
                         <tr>
@@ -53,7 +56,9 @@ export default class Home extends Component {
                             <TableHeader>Data</TableHeader>
                             <TableHeader>Ações</TableHeader>
                         </tr>
+                        <tr><th><br></br></th></tr>
                     </thead>
+                    {loading && ( <tbody className="loader"><tr><td><SyncLoader/></td></tr></tbody> )}
                     <TableContent sales={salesFromDatabase} onDelete={this.deleteSaleHandler}/>
                 </TableLayout>
 

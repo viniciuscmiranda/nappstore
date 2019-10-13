@@ -12,6 +12,15 @@ export const TableLayout = styled.table`
     padding: 4px;
     table-layout: fixed;
     margin-bottom: 32px;
+    position: relative;
+    min-height: 100px;
+
+    .loader{
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 `;
 
 export const TableHeader = styled.th`
@@ -25,4 +34,5 @@ export const TableHeader = styled.th`
 export const TableData = styled.td `
     padding: 4px;
     text-align: center;
+    word-wrap: break-word;
 `;

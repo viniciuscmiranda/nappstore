@@ -1,4 +1,4 @@
-//
+//Sales page
 import React, {Component} from "react";
 import {TableData} from "../../../styles/tableStyles";
 import {LinkStyled, LinkButton, ButtonDelete} from '../../../styles/styles';
@@ -6,6 +6,7 @@ import {MdDelete, MdEdit, MdLink} from 'react-icons/md';
 
 
 class TableContent extends Component {
+    //Sum prices from all products in sale
     getPrice = (sale) => {
         let price = 0;
         sale
@@ -21,6 +22,7 @@ class TableContent extends Component {
             .replace('.', ',');
     }
 
+    //Get sale date
     getDate = (sale) => {
         const date = new Date(sale.createdAt);
         let dd = date.getDate();
@@ -47,11 +49,7 @@ class TableContent extends Component {
                         <TableData>{this.getPrice(sale)}</TableData>
                         <TableData>{this.getDate(sale)}</TableData>
 
-                        <TableData
-                            style={{
-                            display: 'flex',
-                            justifyContent: 'space-evenly'
-                        }}>
+                        <TableData style={{display: 'flex', justifyContent: 'space-evenly'}}>
                             <LinkButton to={`/sales/${sale._id}`} title="Abrir"><MdLink className="TableButton"/></LinkButton>
                             <LinkButton to={`/sales/edit/${sale._id}`} title="Editar"><MdEdit className="TableButton"/></LinkButton>
                             <ButtonDelete onClick={()=>{this.props.onDelete(sale._id)}} title="Excluir"><MdDelete/></ButtonDelete>

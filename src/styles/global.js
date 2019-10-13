@@ -11,7 +11,8 @@ export default createGlobalStyle`
   }
 
   body {
-    font-family: Arial, Helvetica, sans-serif;
+    @import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
+    font-family: 'Raleway', sans-serif;
     font-size: 14px;
     background: #eee;
     text-rendering: optimizeLegibility;
