@@ -7,6 +7,7 @@ import {MdDelete, MdEdit, MdLink} from 'react-icons/md';
 class TableContent extends Component {
     //Set price
     getPrice = (price) => {
+        if(price == null) return "";
         return "$" + price
             .toFixed(2)
             .toString()

@@ -1,7 +1,82 @@
 import styled, {css} from 'styled-components';
 import {Link} from 'react-router-dom';
 
-export const NewButton = styled.button `
+export const Loader = styled.div `
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const Success = styled.div `
+    width: 100%;
+    display: flex;
+    margin: 32px auto;
+    color: darkgreen;
+    text-align: center;
+    font-size: 16px;
+    padding: 16px;
+    background: lightgreen;
+    justify-content: center;
+
+    &::before{
+        content: "Cadastrado com sucesso!";
+    }
+    
+
+    .link{
+        text-decoration: none;
+        &:hover, &:focus, &:focus-within{
+            text-decoration: underline;
+        }
+
+        &::before{
+            content: "Visualizar";
+            color: darkgreen;
+            font-style: italic;
+            font-weight: bold;
+        }
+    }
+
+`;
+
+const errorMessage = css ` 
+    width: 100%;
+    display: flex;
+    margin: 32px auto;
+    &::before{
+        color: darkred;
+        text-align: center;
+        font-size: 16px;
+        width: 100%;
+        padding: 16px;
+        background: lightpink;
+    }
+`
+
+export const NoConnection = styled.div `
+    ${errorMessage}
+    &::before{
+        content: "Ocorreu um erro ao conectar  :(";
+    }
+`;
+
+export const Missing = styled.div `
+    ${errorMessage}
+    &::before{
+        content: "Preencha os campos obrigatórios!";
+    }
+`;
+
+export const Title = styled.h1 `
+    width: 100%;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 16px;
+`;
+
+const button = css `
     padding: 16px 24px;
     border: none;
     border-radius: 4px;
@@ -16,6 +91,9 @@ export const NewButton = styled.button `
         background-color:  lightgreen;
     }
 `;
+
+export const NewButton = styled.button `${button}`;
+export const SendButton = styled.input `${button}`;
 
 export const LinkStyled = styled(Link)`
     color: black;

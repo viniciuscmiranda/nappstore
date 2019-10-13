@@ -3,50 +3,70 @@ import {Link} from 'react-router-dom';
 import api from '../../services/api';
 import {SyncLoader} from 'react-spinners'
 
-import {Title, TableLayout, TableHeader} from '../../styles/tableStyles';
+import {TableLayout, TableHeader} from '../../styles/tableStyles';
 import TableContent from './TableContent';
-import {NewButton} from '../../styles/styles'
-
+import {Title, NewButton, NoConnection, Loader} from '../../styles/styles';
 
 export default class Clients extends Component {
     state = {
         clientsFromDatabase: [],
-        loading: true
+        loading: true,
+        connection: true
     };
 
     async componentDidMount() {
-        const data = await api.get('/clients');
-        this.setState({clientsFromDatabase: data.data, loading: false});
+        try {
+            const data = await api.get('/clients');
+            this.setState({clientsFromDatabase: data.data, loading: false, connection: true});
+        } catch {
+            this.setState({loading: false, connection: false});
+        }
     };
 
     //Delete client
     deleteClientHandler = async id => {
         api.delete(`/clients/${id}`);
         const item = document.getElementById(id);
-        item.parentNode.removeChild(item);
+        item
+            .parentNode
+            .removeChild(item);
     }
 
     render() {
-        const {clientsFromDatabase, loading} = this.state;
+        const {clientsFromDatabase, loading, connection} = this.state;
 
         return (
             <section>
                 <Title>Clientes</Title>
 
-                <TableLayout>
-                    <thead>
-                        <tr>
-                            <TableHeader>Nome</TableHeader>
-                            <TableHeader>Registro</TableHeader>
-                            <TableHeader>Ações</TableHeader>
-                        </tr>
-                        <tr><th><br></br></th></tr>
-                    </thead>
-                    {loading && ( <tbody className="loader"><tr><td><SyncLoader/></td></tr></tbody> )}
-                    <TableContent clients={clientsFromDatabase} onDelete={this.deleteClientHandler}/>
-                </TableLayout>
+                {!connection && (<NoConnection/>)}
+                {loading && (
+                    <Loader><SyncLoader/></Loader>
+                )}
 
-                <Link to="clients/new"><NewButton>Cadastrar Cliente</NewButton></Link>
+                {(connection && !loading) && (
+                    <TableLayout>
+                        <thead>
+                            <tr>
+                                <TableHeader>Nome</TableHeader>
+                                <TableHeader>Registro</TableHeader>
+                                <TableHeader>Ações</TableHeader>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <br></br>
+                                </th>
+                            </tr>
+                        </thead>
+                        <TableContent
+                            clients={clientsFromDatabase}
+                            onDelete={this.deleteClientHandler}/>
+                    </TableLayout>
+                )}
+
+                <Link to="clients/new">
+                    <NewButton>Cadastrar Cliente</NewButton>
+                </Link>
             </section>
         );
     }

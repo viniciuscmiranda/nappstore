@@ -8,11 +8,12 @@ export default createGlobalStyle`
     padding: 0;
     outline: 0;
     box-sizing: border-box;
+    font-family: 'Raleway', sans-serif;
+
   }
 
   body {
     @import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
-    font-family: 'Raleway', sans-serif;
     font-size: 14px;
     background: #eee;
     text-rendering: optimizeLegibility;

@@ -12,7 +12,9 @@ class TableContent extends Component {
         sale
             .products
             .map(product => {
-                price += product.price;
+                if (price != null){
+                    price +=(product.price * product.amount);
+                }
                 return 0;
             });
 
@@ -20,7 +22,9 @@ class TableContent extends Component {
             .toFixed(2)
             .toString()
             .replace('.', ',');
-    }
+        }
+    
+
 
     //Get sale date
     getDate = (sale) => {
