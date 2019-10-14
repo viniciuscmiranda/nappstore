@@ -18,8 +18,10 @@ import SaleList from './components/SaleList';
 import SaleNew from './components/SaleNew';
 import SalePage from './components/SalePage';
 import SaleEdit from './components/SaleEdit';
+
 import NavBar from './components/NavBar';
 import NotFound from './components/NotFound';
+import Home from './components/Home';
 
 class App extends Component {
     render() {
@@ -32,7 +34,7 @@ class App extends Component {
                 <Container>
                     <Switch>
                         {/* Default Route */}
-                        <Route path="/" exact component={SaleList}/>
+                        <Route path="/" exact component={Home}/>
 
                         {/* Sales Routes */}
                         <Route path="/sales" exact component={SaleList}/>

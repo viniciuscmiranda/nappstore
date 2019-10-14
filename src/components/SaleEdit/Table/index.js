@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {TableData, TableHeader} from '../../../styles/tableStyles';
-import {TableContainer} from './styles';
+import {TableContainer} from '../../SaleNew/Table/styles';
 import {MdDelete} from 'react-icons/md';
 import {ButtonDelete} from '../../../styles/styles';
 import { getRentability, getStringFloat } from '../../../rules';

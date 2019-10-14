@@ -67,6 +67,8 @@ export default class SalePage extends Component{
                 {(!loading && connection) && (
                     <div>
                     {/* Render profile  */}
+                    <Title>Compra de {clientName}</Title>
+
                     <Profile>    
                         <div className="stats">
                             <span>
@@ -84,11 +86,11 @@ export default class SalePage extends Component{
                             <span>
                                 <strong>Cliente: </strong>{clientName}
                             </span>
+                                      
+                            <div className="actions">
+                                <LinkButton to={`/sales/edit/${sale._id}`} title="Editar"><MdEdit className="TableButton"/></LinkButton>
+                            </div>
                         </div>
-                        
-                    <div className="actions">
-                        <LinkButton to={`/sales/edit/${sale._id}`} title="Editar"><MdEdit className="TableButton"/></LinkButton>
-                    </div>
                     </Profile>
 
          

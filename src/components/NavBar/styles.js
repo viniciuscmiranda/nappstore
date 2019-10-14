@@ -2,7 +2,10 @@ import styled from 'styled-components';
 
 export const NavContainer = styled.nav `
     width: 100%;
+    position: sticky;
+    top: 0;
     background-color: white;
+    z-index: 10;
     box-shadow: 0 2px 10px rgba(0,0,0,.2);
 
     ul{
@@ -35,7 +38,7 @@ export const NavContainer = styled.nav `
                 
                 > *:last-child{
                     display: none;
-                    font-size: 24px;
+                    font-size: 32px;
                 }
             }
 

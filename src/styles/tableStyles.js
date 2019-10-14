@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export const TableLayout = styled.table`
     width: 100%;
     padding: 4px;
-    table-layout: fixed;
     margin-bottom: 32px;
     position: relative;
     min-height: 100px;
@@ -21,7 +20,7 @@ export const TableHeader = styled.th`
 export const TableData = styled.td `
     padding: 4px;
     text-align: center;
-    word-break: break-all;
+    word-wrap: break-word;
   
 `;
 

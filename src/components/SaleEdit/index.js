@@ -231,7 +231,7 @@ export default class NewSale extends Component {
         try {
             //Make request
             await api.post(`/sales/${this.state.id}`, {clientId, products});
-            this.setState({success: true, cart: []});
+            this.setState({success: true});
         } catch (e) {
             //Show error message
             this.setState({connection: false});

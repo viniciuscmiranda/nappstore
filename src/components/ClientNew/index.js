@@ -11,7 +11,8 @@ export default class ClientNew extends Component {
         loading: false,
         connection: true,
         missing: false,
-        success: false
+        success: false,
+        id: "",
     }
 
     //Send form to api
@@ -32,8 +33,8 @@ export default class ClientNew extends Component {
 
         //Send data to api
         api.post('/newclient', {name: e.target.name.value, picture: e.target.picture.value})
-            .then(() => {       
-                this.setState({success: true, loading: false});
+            .then((e) => {       
+                this.setState({success: true, loading: false, id: e.data._id});
                 // Empty fields
                 document.getElementById("form").reset(); 
             }, (e) => {
@@ -49,7 +50,7 @@ export default class ClientNew extends Component {
             <section>
                 <Title>Novo Cliente</Title>
                 {/* Registered */}
-                {success && (<Success><Link to="/clients" className="link"/></Success>)}
+                {success && (<Success><Link to={`/clients/${this.state.id}`} className="link"/></Success>)}
 
                 {/* While loading */}
                 {loading && (<Loader><SyncLoader/></Loader>)}

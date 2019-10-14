@@ -17,7 +17,8 @@ export default class NewSale extends Component {
         connection: true,
         loading: true,
         success: false,
-        lowrent: false
+        lowrent: false,
+        id: ""
     }
 
     //Calculate total price
@@ -162,8 +163,9 @@ export default class NewSale extends Component {
         //Submit data
         try {
             //Make request
-            await api.post('/newsale', {clientId, products});
-            this.setState({success: true, cart: []});
+            const e = await api.post('/newsale', {clientId, products});
+            
+            this.setState({success: true, cart: [], id: e.data._id});
         } catch (e) {
             //Show error message
             this.setState({connection: false});
@@ -181,7 +183,7 @@ export default class NewSale extends Component {
 
             this.setState({clients: clients.data, products: products.data, loading: false});
 
-            if (!!clients.length || !!products.length) 
+            if (!Object.keys(clients.data).length || !Object.keys(products.data).length) 
                 this.setState({connection: false});
             }
         catch {
@@ -213,7 +215,7 @@ export default class NewSale extends Component {
                 {/* Request success */}
                 {(connection && success) && (
                     <Success>
-                        <Link to="/sales" className="link"/>
+                        <Link to={`/sales/${this.state.id}`} className="link"/>
                     </Success>
                 )}
 

@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
 export const NotFoundLabel = styled.div`
-    margin: 64px 0;
+    margin-top: 64px;
+    margin-bottom: 32px;
     font-size: 32px;
     text-align: center;
-    font-weight: bold;
 `;
 
 export const Error = styled.div`
-    margin: 64px 0;
-    font-size: 32px;
+    margin-bottom: 64px;
+    font-size: 24px;
     text-align: center;
     color: darkred;
 `;

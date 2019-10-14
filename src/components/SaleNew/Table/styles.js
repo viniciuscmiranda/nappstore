@@ -8,7 +8,6 @@ export const TableContainer = styled.div `
 
     table{
         width: 100%;
-        table-layout: fixed;
         td{
             input{
                padding: 2px;

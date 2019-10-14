@@ -19,7 +19,8 @@ export default class ProductNew extends Component {
         loading: false,
         connection: true,
         missing: false,
-        success: false
+        success: false,
+        id: ""
     }
 
     //Send form to api
@@ -30,7 +31,7 @@ export default class ProductNew extends Component {
         this.setState({connection: true, missing: false, success: false});
 
         //Check for empty fields
-        if (e.target.name.value === "" || e.target.price.value === "" || e.target.multiple.value === "") {
+        if (e.target.name.value === "" || e.target.price.value === "") {
             this.setState({missing: true, connection: true})
             return;
         }
@@ -44,8 +45,8 @@ export default class ProductNew extends Component {
             price: parseFloat(e.target.price.value),
             multiple: parseInt(e.target.multiple.value),
             picture: e.target.picture.value,
-        }).then(() => {
-            this.setState({success: true, loading: false});
+        }).then((e) => {
+            this.setState({success: true, loading: false, id: e.data._id});
             // Empty fields           
             document.getElementById("form").reset(); 
         }, (e) => {
@@ -61,7 +62,7 @@ export default class ProductNew extends Component {
             <section>
                 <Title>Novo Produto</Title>
                 {/* Registered */}
-                {success && (<Success><Link to="/products" className="link"/></Success>)}
+                {success && (<Success><Link to={`/products/${this.state.id}`} className="link"/></Success>)}
                 
                 {/* While loading  */}
                 {loading && (<Loader><SyncLoader/></Loader>)}
@@ -86,7 +87,7 @@ export default class ProductNew extends Component {
 
                     <FormLabelItem>
                         <span>Múltiplo</span>
-                        <input type="number" step="1" name="multiple" required/>
+                        <input type="number" step="1" name="multiple" min="1" defaultValue="1"/>
                     </FormLabelItem>
 
                     <FormLabelItem>
