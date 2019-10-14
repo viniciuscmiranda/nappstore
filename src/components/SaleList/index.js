@@ -64,18 +64,20 @@ export default class SaleList extends Component {
                 {(connection && !loading) && (
                     // Render table
                     <TableLayout>
-                        <thead>
-                            <tr>
-                                <TableHeader>Cliente</TableHeader>
-                                <TableHeader>Valor</TableHeader>
-                                <TableHeader>Data</TableHeader>
-                                <TableHeader>Ações</TableHeader>
-                            </tr>
-                            <tr><th><br></br></th></tr>
-                        </thead>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <TableHeader>Cliente</TableHeader>
+                                    <TableHeader>Valor</TableHeader>
+                                    <TableHeader>Data</TableHeader>
+                                    <TableHeader>Ações</TableHeader>
+                                </tr>
+                                <tr><th><br></br></th></tr>
+                            </thead>
 
-                        {/* Table content */}
-                        <TableContent sales={salesFromDatabase} onDelete={this.deleteSaleHandler}/>
+                            {/* Table content */}
+                            <TableContent sales={salesFromDatabase} onDelete={this.deleteSaleHandler}/>
+                        </table>
                     </TableLayout>
                 )}
 

@@ -48,6 +48,7 @@ export default class ProductList extends Component {
                 {(connection && !loading) && (
                     // Render Table
                     <TableLayout>
+                    <table>
                         <thead>
                             <tr>
                                 <TableHeader>Nome</TableHeader>
@@ -60,6 +61,7 @@ export default class ProductList extends Component {
                         </thead>
                         {/* Table Content */}
                         <TableContent products={productsFromDatabase} onDelete={this.deleteProductHandler}/>
+                    </table>
                     </TableLayout>
                 )}
 

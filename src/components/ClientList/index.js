@@ -50,16 +50,18 @@ export default class ClientList extends Component {
                 {(connection && !loading) && (
                     // Render Table
                     <TableLayout>
-                        <thead>
-                            <tr>
-                                <TableHeader>Nome</TableHeader>
-                                <TableHeader>Registro</TableHeader>
-                                <TableHeader>Ações</TableHeader>
-                            </tr>
-                            <tr><th><br></br></th></tr>
-                        </thead>
-                        {/* Table Content */}
-                        <TableContent clients={clientsFromDatabase} onDelete={this.deleteClientHandler}/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <TableHeader>Nome</TableHeader>
+                                    <TableHeader>Registro</TableHeader>
+                                    <TableHeader>Ações</TableHeader>
+                                </tr>
+                                <tr><th><br></br></th></tr>
+                            </thead>
+                            {/* Table Content */}
+                            <TableContent clients={clientsFromDatabase} onDelete={this.deleteClientHandler}/>
+                        </table>
                     </TableLayout>
                 )}
 

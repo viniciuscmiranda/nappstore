@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 
 //Table styles
-export const TableLayout = styled.table`
+export const TableLayout = styled.div`
     width: 100%;
-    padding: 4px;
-    margin-bottom: 32px;
-    position: relative;
-    min-height: 100px;
+    overflow-x: auto;
+
+    table{
+        width: 100%;
+        padding: 4px;
+        margin-bottom: 32px;
+        position: relative;
+        min-height: 100px;
+        table-layout: fixed;
+    }
 `;
 
 export const TableHeader = styled.th`

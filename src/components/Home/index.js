@@ -50,7 +50,7 @@ export default class Home extends Component{
             {/* While loading */}
             {loading && (<Loader><SyncLoader/></Loader>)}
 
-            {!loading && (
+            {(!loading && connection) && (
                 <div className="icons">
 
                     <div className="item">
