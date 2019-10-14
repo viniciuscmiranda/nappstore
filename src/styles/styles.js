@@ -21,6 +21,8 @@ export const Success = styled.div `
     padding: 16px;
     background: lightgreen;
     justify-content: center;
+    border-radius: 8px;
+
 
     &::before{
         content: "Cadastrado com sucesso!";
@@ -28,12 +30,15 @@ export const Success = styled.div `
     
     .link{
         text-decoration: none;
+        color: darkgreen;
+
+
         &:hover, &:focus, &:focus-within{
             text-decoration: underline;
         }
 
         &::before{
-            content: "Visualizar";
+            content: " Visualizar";
             color: darkgreen;
             font-style: italic;
             font-weight: bold;
@@ -49,6 +54,7 @@ const errorMessage = css `
     margin: 32px auto;
     &::before, span{
         color: darkred;
+        border-radius: 8px;
         text-align: center;
         font-size: 16px;
         width: 100%;
@@ -146,14 +152,14 @@ const button = css `
     border: none;
     border-radius: 4px;
     font-size: 14px;
-    background-color: darkseagreen;
+    background-color: lightgreen;
     cursor: pointer;
     font-weight: bold;
     color: darkgreen;
     transition: background-color .2s ease-in;
 
     &:hover, &:focus, &:focus-within{
-        background-color:  lightgreen;
+        background-color: #d2fcd2;
     }
 `;
 
