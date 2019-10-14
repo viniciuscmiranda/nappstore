@@ -68,7 +68,7 @@ export default class ProductEdit extends Component {
 
         return (
             <section>
-                <Title>Atualizar Cliente</Title>
+                <Title>Atualizar Produto</Title>
                 {/* Registered */}
                 {success && (<Success><Link to={`/products/${prod._id}`} className="link"/></Success>)}
 
