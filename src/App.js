@@ -6,13 +6,16 @@ import GlobalStyle from "./styles/global";
 import {Container} from "./styles";
 
 //Routes
-import Clients from './components/Clients';
-import NewClient from './components/NewClient';
-import Products from './components/Products';
-import NewProduct from './components/NewProduct';
-import Home from './components/Home';
-import NewSale from './components/NewSale';
-import Nav from './components/Nav';
+import ClientList from './components/ClientList';
+import ClientNew from './components/ClientNew';
+import ClientPage from './components/ClientPage';
+import ProductList from './components/ProductList';
+import ProductNew from './components/ProductNew';
+import ProductPage from './components/ProductPage';
+import SaleList from './components/SaleList';
+import SaleNew from './components/SaleNew';
+import SalePage from './components/SalePage';
+import NavBar from './components/NavBar';
 import NotFound from './components/NotFound';
 
 class App extends Component {
@@ -20,30 +23,30 @@ class App extends Component {
         return (
             <Router>
                 {/* Nav bar */}
-                <Nav/>
+                <NavBar/>
 
                 {/* Main Container */}
                 <Container>
                     <Switch>
                         {/* Default Route */}
-                        <Route path="/" exact component={Home}/>
+                        <Route path="/" exact component={SaleList}/>
 
                         {/* Sales Routes */}
-                        <Route path="/sales" exact component={Home}/>
-                        <Route path="/sales/new" component={NewSale}/>
-                        <Route path="/sales/:id"/>
+                        <Route path="/sales" exact component={SaleList}/>
+                        <Route path="/sales/new" component={SaleNew}/>
+                        <Route path="/sales/:id" component={SalePage}/>
                         <Route path="/sales/edit/:id" />
 
                         {/* Products Routes */}
-                        <Route path="/products" exact component={Products}/>
-                        <Route path="/products/new" component={NewProduct}/>
-                        <Route path="/products/:id"/>
+                        <Route path="/products" exact component={ProductList}/>
+                        <Route path="/products/new" component={ProductNew}/>
+                        <Route path="/products/:id" component={ProductPage}/>
                         <Route path="/products/edit/:id" />
 
                         {/* Clients Routes */}
-                        <Route path="/clients" exact component={Clients}/>
-                        <Route path="/clients/new" component={NewClient}/>
-                        <Route path="/clients/:id"/>
+                        <Route path="/clients" exact component={ClientList}/>
+                        <Route path="/clients/new" component={ClientNew}/>
+                        <Route path="/clients/:id" component={ClientPage}/>
                         <Route path="/clients/edit/:id"/>
 
                         {/* Not Found Route */}

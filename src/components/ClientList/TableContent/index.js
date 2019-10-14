@@ -17,8 +17,8 @@ class TableContent extends Component {
 
                         {/* Action Buttons */}
                         <TableData style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                            <LinkButton to={`/client/${client._id}`} title="Abrir"><MdLink className="TableButton"/></LinkButton>
-                            <LinkButton to={`/client/edit/${client._id}`} title="Editar"><MdEdit className="TableButton"/></LinkButton>
+                            <LinkButton to={`/clients/${client._id}`} title="Abrir"><MdLink className="TableButton"/></LinkButton>
+                            <LinkButton to={`/clients/edit/${client._id}`} title="Editar"><MdEdit className="TableButton"/></LinkButton>
                             <ButtonDelete onClick={()=>{this.props.onDelete(client._id)}} title="Excluir"><MdDelete/></ButtonDelete>
                         </TableData>
                     </tr>

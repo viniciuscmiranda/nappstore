@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import api from '../../services/api';
-import {getStringDate, getStringFloat} from '../../rules';
+import {getStringDate} from '../../rules';
 import {SyncLoader} from 'react-spinners'
 import {Title, NoConnection, Loader} from '../../styles/styles';
 import {Profile} from '../../styles/pageStyles';
@@ -9,7 +9,8 @@ import {Profile} from '../../styles/pageStyles';
 export default class ProductPage extends Component{
     // State
     state = {
-        prod: {},
+        cli: {},
+        sales: [],
         connection: true,
         loading: true,
     }
@@ -17,16 +18,16 @@ export default class ProductPage extends Component{
     async componentDidMount(){
         const { match: { params } } = this.props;
         try{
-            // Get product data
-            const prod = await api.get(`/products/${params.id}`);
-            this.setState({loading: false, prod: prod.data});
+            // Get client data
+            const cli = await api.get(`/clients/${params.id}`);
+            this.setState({loading: false, cli: cli.data});
         } catch (e){
             this.setState({loading: false, connection: false});
         }
     }
 
     render(){
-        const {prod, loading, connection} = this.state;
+        const {cli, loading, connection} = this.state;
 
         return(
             <section>
@@ -39,26 +40,20 @@ export default class ProductPage extends Component{
                 {/* If not loading and connected */}
                 {(!loading && connection) && (
                     <div>
-                        <Title>{prod.name}</Title>
+                        <Title>{cli.name}</Title>
 
                         {/* Render profile */}
                         <Profile>
                             <figure>
-                                <img src={prod.picture} alt={prod.name}></img>
+                                <img src={cli.picture} alt={cli.name}></img>
                             </figure>
         
                             <div className="stats">
                                 <span>
-                                    <strong>Id: </strong>{prod._id}
+                                    <strong>Id: </strong>{cli._id}
                                 </span>
                                 <span>
-                                    <strong>Preço: </strong>{getStringFloat(prod.price)}
-                                </span>
-                                <span>
-                                    <strong>Registro: </strong>{getStringDate(prod.createdAt)}
-                                </span>
-                                <span>
-                                    <strong>Múltiplo: </strong>{prod.multiple}
+                                    <strong>Registro: </strong>{getStringDate(cli.createdAt)}
                                 </span>
                             </div>
                         </Profile>

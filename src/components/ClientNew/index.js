@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {SendButton, Title, NoConnection, Loader, Missing, Success, FormLabelItem} from '../../styles/styles';
 
 
-export default class NewProduct extends Component {
+export default class ClientNew extends Component {
     //State
     state = {
         loading: false,
@@ -31,7 +31,7 @@ export default class NewProduct extends Component {
         this.setState({loading: true});
 
         //Send data to api
-        api.post('/newclient', {name: e.target.name.value})
+        api.post('/newclient', {name: e.target.name.value, picture: e.target.picture.value})
             .then(() => {       
                 this.setState({success: true, loading: false});
                 // Empty fields
@@ -65,6 +65,11 @@ export default class NewProduct extends Component {
                     <FormLabelItem>
                         <span>Nome</span>
                         <input type="text" name="name" required/>
+                    </FormLabelItem>
+
+                    <FormLabelItem>
+                        <span>Imagem (Link)</span>
+                        <input type="text" name="picture"/>
                     </FormLabelItem>
                     <SendButton type="submit" value="Cadastrar"/>
                 </form>

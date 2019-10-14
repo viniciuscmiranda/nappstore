@@ -4,7 +4,7 @@ import {NavContainer} from './styles';
 import {MdFace, MdList, MdShoppingCart} from 'react-icons/md'
 import {Link} from 'react-router-dom';
 
-export default function Nav() {
+export default function NavBar() {
     return (
         <NavContainer>
             <ul>

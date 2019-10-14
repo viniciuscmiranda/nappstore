@@ -13,7 +13,7 @@ import {
 } from '../../styles/styles';
 
 
-export default class NewProduct extends Component {
+export default class ProductNew extends Component {
     //State
     state = {
         loading: false,
@@ -42,7 +42,8 @@ export default class NewProduct extends Component {
         api.post('/newproduct', {
             name: e.target.name.value,
             price: parseFloat(e.target.price.value),
-            multiple: parseInt(e.target.multiple.value)
+            multiple: parseInt(e.target.multiple.value),
+            picture: e.target.picture.value,
         }).then(() => {
             this.setState({success: true, loading: false});
             // Empty fields           
@@ -86,6 +87,11 @@ export default class NewProduct extends Component {
                     <FormLabelItem>
                         <span>Múltiplo</span>
                         <input type="number" step="1" name="multiple" required/>
+                    </FormLabelItem>
+
+                    <FormLabelItem>
+                        <span>Imagem (Link)</span>
+                        <input type="text" name="picture"/>
                     </FormLabelItem>
 
                     <SendButton type="submit" value="Cadastrar"/>

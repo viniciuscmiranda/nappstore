@@ -1,70 +1,70 @@
 import React, {Component} from 'react';
 import api from '../../services/api';
-import {Link} from 'react-router-dom';
 import {SyncLoader} from 'react-spinners'
+import {Link} from 'react-router-dom';
 import {TableLayout, TableHeader} from '../../styles/tableStyles';
 import {Title, NewButton, NoConnection, Loader} from '../../styles/styles';
 import TableContent from './TableContent';
 
-export default class Products extends Component {
+
+export default class ClientList extends Component {
     // State
     state = {
-        productsFromDatabase: [],
+        clientsFromDatabase: [],
         loading: true,
         connection: true
     };
 
-    // Get prodcuts from api
     async componentDidMount() {
         try {
-            const data = await api.get('/products');
-            this.setState({productsFromDatabase: data.data, loading: false, connection: true});
+            // Get clients from server
+            const data = await api.get('/clients');
+            this.setState({clientsFromDatabase: data.data, loading: false, connection: true});
         } catch {
             this.setState({loading: false, connection: false});
         }
     };
 
-    //Delete product from database
-    deleteProductHandler = async id => {
-        api.delete(`/products/${id}`);
+    //Delete client from database
+    deleteClientHandler = async id => {
+        api.delete(`/clients/${id}`);
         //Remove from table
         const item = document.getElementById(id);
         item.parentNode.removeChild(item);
     }
 
     render() {
-        const {productsFromDatabase, loading, connection} = this.state;
+        const {clientsFromDatabase, loading, connection} = this.state;
 
         return (
             <section>
-                <Title>Produtos</Title>
+                <Title>Clientes</Title>
 
-                {/* Connection error */}
+                {/* Connection Error */}
                 {!connection && (<NoConnection/>)}
-                {/* While loading */}
+                
+                {/* While Loading */}
                 {loading && (<Loader><SyncLoader/></Loader>)}
 
-                {/* If connected and not loading */}
+                {/* If connected and not Loading */}
                 {(connection && !loading) && (
                     // Render Table
                     <TableLayout>
                         <thead>
                             <tr>
                                 <TableHeader>Nome</TableHeader>
-                                <TableHeader>Preço</TableHeader>
-                                <TableHeader>Múltiplo</TableHeader>
                                 <TableHeader>Registro</TableHeader>
                                 <TableHeader>Ações</TableHeader>
                             </tr>
                             <tr><th><br></br></th></tr>
                         </thead>
                         {/* Table Content */}
-                        <TableContent products={productsFromDatabase} onDelete={this.deleteProductHandler}/>
+                        <TableContent clients={clientsFromDatabase} onDelete={this.deleteClientHandler}/>
                     </TableLayout>
                 )}
 
-                {/* Go to new product */}
-                <Link to="products/new"><NewButton>Cadastrar Produto</NewButton></Link>
+                {/*  Go to new client */}
+                <Link to="clients/new"><NewButton>Cadastrar Cliente</NewButton></Link>
             </section>
         );
     }

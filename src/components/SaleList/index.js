@@ -6,7 +6,7 @@ import {TableLayout, TableHeader} from '../../styles/tableStyles';
 import {Title, NewButton, NoConnection, Loader} from '../../styles/styles';
 import TableContent from './TableContent';
 
-export default class Home extends Component {
+export default class SaleList extends Component {
     // State
     state = {
         salesFromDatabase: [],

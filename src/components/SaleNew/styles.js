@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+//Custom label item
 export const LabelItem = styled.span `
     display: flex;
     flex-direction: column;
@@ -24,9 +25,7 @@ export const LabelItem = styled.span `
         }
     }
 
-    span{
-        margin-bottom: 8px;
-    }
+    span{ margin-bottom: 8px; }
 
     select{
         width: 100%;
@@ -40,15 +39,15 @@ export const LabelItem = styled.span `
     }
 `;
 
-export const NoSales = styled.span `
+// No items in cart
+export const NoSales = styled.p `
     color: black;
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    width: 100%;
+    margin: 32px 0;
     text-align: center;
-    transform: translate(-50%, 200%);
 `
 
+//Holder for sale status
 export const StatsHolder = styled.div `
     display: flex;
     justify-content: space-between;
@@ -77,10 +76,21 @@ export const StatsHolder = styled.div `
         }
     }
 
+    /* Submit button */
     *[type="submit"]{
         height: 48px;
         min-width: 155px;
         margin-right: 16px;
         align-self: flex-end;
+    }
+
+    @media screen and (max-width: 960px){
+        flex-direction: column;
+
+        *[type="submit"]{
+            width: 100%;
+            margin: 0;
+            margin-bottom: 32px;
+        }
     }
 `;

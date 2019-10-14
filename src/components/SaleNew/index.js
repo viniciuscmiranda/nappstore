@@ -21,7 +21,7 @@ export default class NewSale extends Component {
     }
 
     //Calculate total price
-    handleSetTotalPrice = () => {
+    calcTotalPrice = () => {
         //Get all product's prices and amounts
         const amountHolder = document.querySelectorAll('.prodAmount');
         const priceHolder = document.querySelectorAll('.prodPrice');
@@ -62,9 +62,7 @@ export default class NewSale extends Component {
     //Add new product to the cart
     handleAddToCart = async() => {
         //Get selected product
-        const selected = document
-            .getElementById("selected-prod")
-            .value;
+        const selected = document.getElementById("selected-prod").value;
 
         //Check if product's already in the cart
         const prodIsInCart = await this.state.cart.find((p) => { return p._id === selected; });
@@ -74,22 +72,19 @@ export default class NewSale extends Component {
             const prod = this.state.products.find((p) => { return p._id === selected; });
             this.setState(previousState => ({ cart: [...previousState.cart, prod ] }));
         } else {
-            //If it is, then add to the amount
+            //If it is, then sum to the amount
             const holder = document.getElementById(selected).querySelector('.prodAmount');
             holder.value = parseInt(holder.value) + parseInt(holder.getAttribute('step'));
         }
 
         //Recalculate total price
-        this.handleSetTotalPrice();
+        this.calcTotalPrice();
     }
 
     //Remove product from the cart
     handleDelete = async(id) => {
         this.setState({
-            cart: this
-                .state
-                .cart
-                .filter(function (prod) {
+            cart: this.state.cart.filter(function (prod) {
                     let keep = prod._id !== id
                     if (!keep) {
                         //Set Total Price
@@ -114,6 +109,7 @@ export default class NewSale extends Component {
                         rentInput.value = rentability.rent;
                         rentInput.style.color = rentability.color;
                     }
+
                     return keep;
                 })
         });
@@ -121,21 +117,22 @@ export default class NewSale extends Component {
 
     //Send form to server
     handleSubmit = async e => {
-        //Cancel sending
+        //Cancel form
         e.preventDefault();
 
-        //Set loading
-        this.setState({loading: true});
+        //Reset state
+        this.setState({loading: true, lowrent: false, success: false, connection: true});
 
         //Get data from form
         const clientId = e.target.client.value;
         let products = [];
 
+        let loop = true;
         //Get data from table
-        this
-            .state
-            .cart
-            .map(p => {
+        this.state.cart.map(p => {
+                //Break if founds low rentability item
+                if(!loop) return false;
+
                 //Price from table
                 let priceHolder = parseFloat(document.getElementById(p._id).querySelector('.prodPrice').value);
                 //Amount from table
@@ -148,16 +145,25 @@ export default class NewSale extends Component {
                 prod["price"] = priceHolder;
                 prod["amount"] = amountHolder;
 
+                //Check rentability
+                loop = ((getRentability(p.price, prod.price).rent !== getRentability(1,0).rent));
+
                 //Pushing to products object
                 products.push(prod);
                 return true;
             });
 
+        if(!loop){
+            //Stop loading
+            this.setState({loading: false, lowrent: true});
+            return;
+        }
+
         //Submit data
         try {
             //Make request
             await api.post('/newsale', {clientId, products});
-            this.setState({success: true});
+            this.setState({success: true, cart: []});
         } catch (e) {
             //Show error message
             this.setState({connection: false});
@@ -219,8 +225,8 @@ export default class NewSale extends Component {
                     <form onSubmit={this.handleSubmit}>
                         <LabelItem>
                             <span>Cliente</span>
+                            {/* Set clients */}
                             <select name="client">
-                                {/* Set clients */}
                                 {clients.map(client => {return (
                                         <option value={client._id} key={client._id}>{client.name}</option>
                                     )})
@@ -231,8 +237,8 @@ export default class NewSale extends Component {
                         <LabelItem>
                             <span>Produto</span>
                             <div>
+                                {/* Set products */}                        
                                 <select id="selected-prod">
-                                    {/* Set products */}
                                     {products.map(product => {return (
                                             <option value={product._id} key={product._id}>{product.name}</option>
                                         )})
@@ -246,17 +252,18 @@ export default class NewSale extends Component {
                             </div>
                         </LabelItem>
 
-                        {/* Render Table  */}
-                        <Table cart={cart} onDelete={this.handleDelete} setTotalPrice={this.handleSetTotalPrice}/>
-
                         {/* If there's no item in the cart... */}
-                        {!cart.length && (<NoSales>Clique em "+" para adicionar produtos!</NoSales>)}
-                        {/* Else... */}
-                        {!!cart.length && (
-                            <div>
+                        {(!!!cart.length)
+                            ?(<NoSales>Clique em "+" para adicionar produtos!</NoSales>)
+                            
+                            // Else...
+                            :(<div>
                                 {/* Render Table */}
-                                <Table cart={cart} onDelete={this.handleDelete} setTotalPrice={this.handleSetTotalPrice}/>
-
+                                <Table
+                                cart={cart}
+                                onDelete={this.handleDelete}
+                                setTotalPrice={this.calcTotalPrice}/>
+    
                                 {/* Submit button and Sale stats holder */}
                                 <StatsHolder>
                                     <SendButton type="submit" value="Cadastrar"/>
@@ -264,29 +271,36 @@ export default class NewSale extends Component {
                                     {/* Sale stats */}
                                     <div className="sale-stats">
                                         <label>
-                                            <strong>Total:
-                                            </strong>
-                                            <input type="text" id="total-price" readOnly defaultValue="$0,00"></input>
+                                            <strong>Total:</strong>
+                                            <input
+                                            type="text"
+                                            id="total-price"
+                                            readOnly
+                                            defaultValue="$0,00"/>
                                         </label>
 
                                         <label>
-                                            <strong>Sugerido:
-                                            </strong>
-                                            <input type="text" id="diff-price" readOnly defaultValue="$0,00"></input>
+                                            <strong>Sugerido:</strong>
+                                            <input
+                                            type="text"
+                                            id="diff-price"
+                                            readOnly
+                                            defaultValue="$0,00"/>
                                         </label>
 
                                         <label>
-                                            <strong>Retabilidade:
-                                            </strong>
-                                            <input type="text" id="rent-price" readOnly/>
+                                            <strong>Retabilidade:</strong>
+                                            <input
+                                            type="text"
+                                            id="rent-price"
+                                            readOnly/>
                                         </label>
 
                                     </div>
                                 </StatsHolder>
-                            </div>
-                        )}
-                    </form>
-                ))}
+                            </div>)}
+                        </form>
+                        ))}
             </section>
         );
     }
