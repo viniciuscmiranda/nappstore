@@ -326,7 +326,7 @@ export default class NewSale extends Component {
     
                                 {/* Submit button and Sale stats holder */}
                                 <StatsHolder>
-                                    <SendButton type="submit" value="Cadastrar"/>
+                                    <SendButton type="submit" value="Atualizar"/>
 
                                     {/* Sale stats */}
                                     <div className="sale-stats">

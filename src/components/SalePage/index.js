@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import api from '../../services/api';
 import {getStringDate, getStringFloat} from '../../rules';
 import {SyncLoader} from 'react-spinners'
-import {Title, NoConnection, Loader, LinkButton} from '../../styles/styles';
+import {Title, NoConnection, Loader, LinkButton, LinkStyled} from '../../styles/styles';
 import {Profile} from '../../styles/pageStyles';
 import {TableHeader, TableLayout} from '../../styles/tableStyles';
 import TableContent from './TableContent';
@@ -84,7 +84,7 @@ export default class SalePage extends Component{
                                 <strong>Produtos: </strong>{this.getAmount(sale)}
                             </span>
                             <span>
-                                <strong>Cliente: </strong>{clientName}
+                                <strong>Cliente: </strong><LinkStyled to={`/clients/${this.state.sale.clientId}`}>{clientName}</LinkStyled>
                             </span>
                                       
                             <div className="actions">

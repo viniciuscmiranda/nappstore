@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {TableData} from "../../../styles/tableStyles";
 import {getStringFloat, getRentability} from '../../../rules';
 import api from "../../../services/api";
+import { LinkStyled } from "../../../styles/styles";
 
 class TableContent extends Component {
     state = {
@@ -40,7 +41,7 @@ class TableContent extends Component {
                 {products.map(prod => {
                     return(
                         <tr key={prod.id}>
-                            <TableData>{prod.name}</TableData>
+                            <TableData><LinkStyled to={`/products/${prod.id}`}>{prod.name}</LinkStyled></TableData>
                             <TableData>{getStringFloat(prod.price)}</TableData>
                             <TableData>{getStringFloat(prod.newPrice)}</TableData>
                             <TableData>{prod.amount}</TableData>
