@@ -41,7 +41,7 @@ export default class ProductEdit extends Component {
             return;
         }
 
-        // Set loading state
+        //Set loading state
         this.setState({loading: true});
 
         //Send data to api
