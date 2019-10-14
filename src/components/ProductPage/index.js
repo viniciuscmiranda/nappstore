@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import api from '../../services/api';
 import {getStringDate, getStringFloat} from '../../rules';
 import {SyncLoader} from 'react-spinners'
-import {Title, NoConnection, Loader} from '../../styles/styles';
+import {Title, NoConnection, Loader, LinkButton} from '../../styles/styles';
 import {Profile} from '../../styles/pageStyles';
-
+import {MdEdit} from 'react-icons/md';
 
 export default class ProductPage extends Component{
     // State
@@ -60,6 +60,10 @@ export default class ProductPage extends Component{
                                 <span>
                                     <strong>Múltiplo: </strong>{prod.multiple}
                                 </span>
+
+                                <div className="actions">
+                                    <LinkButton to={`/products/edit/${prod._id}`} title="Editar"><MdEdit className="TableButton"/></LinkButton>
+                                </div>
                             </div>
                         </Profile>
                      </div>

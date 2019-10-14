@@ -98,18 +98,37 @@ export const LinkStyled = styled(Link)`
 
 //Link layout
 const buttonLinkStyle = css `
-    color: rgba(0,0,0,.3);
+    color: rgba(0,0,0,.3);      
+    padding: 4px;
+    box-shadow: 0 0 4px rgba(0,0,0,.2);
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    margin: 4px;
+
     *{
         color: rgba(0,0,0,.3);
-        font-size: 24px;
-    }
+        font-size: 18px;
+    }  
+
     &:hover, &:focus, &:focus-within{
         color: black;
         *{
             color: black;
             transition: color .2s ease-in;
         }
-}`
+    }
+
+    @media (max-width: 960px){
+        margin: 8px 0;
+        display: flex;
+        justify-content: center;
+        >*{
+            font-size: 20px;
+            align-self: center;
+        }
+    }
+`
 
 //Delete button Style
 export const ButtonDelete = styled.button `

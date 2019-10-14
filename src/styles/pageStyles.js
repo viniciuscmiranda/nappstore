@@ -13,19 +13,19 @@ export const Profile = styled.div`
     
         img{
             position: absolute;
-            transform: translate(-50%, -50%);
-            top: 50%;
+            transform: translate(-50%, -20%);
+            top: 20%;
             left: 50%;
-            height: 125%;
-            transition: height .2s ease-in;
+            width: 180%;
+            min-height: 100%;
+            transition: width .2s ease-in;
         }
 
         &:hover{
             img{
-                height: 130%;
+                width: 185%;
             }
         }
-
     }
 
     .stats{
@@ -36,6 +36,42 @@ export const Profile = styled.div`
 
         span{
             margin: 8px 0;
+        }
+
+        .actions{
+            display: flex;
+            margin-top: 16px;
+
+            >*:first-child{
+                margin-right: 8px;
+            }
+        }
+    }
+
+    @media (max-width: 960px){
+        flex-direction: column;
+        width: 100%;
+
+        figure{
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        .stats{
+            text-align: center;
+            margin: 0;
+
+            span{
+                margin: 4px 0;
+            }
+
+            .actions{
+                justify-content: center;
+
+                *{
+                    margin: 0;
+                }
+            }
         }
     }
   

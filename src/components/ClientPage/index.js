@@ -2,15 +2,16 @@ import React, {Component} from 'react'
 import api from '../../services/api';
 import {getStringDate} from '../../rules';
 import {SyncLoader} from 'react-spinners'
-import {Title, NoConnection, Loader} from '../../styles/styles';
+import {Title, NoConnection, Loader, LinkButton} from '../../styles/styles';
+import {MdEdit} from 'react-icons/md';
+
 import {Profile} from '../../styles/pageStyles';
 
 
-export default class ProductPage extends Component{
+export default class ClientPage extends Component{
     // State
     state = {
         cli: {},
-        sales: [],
         connection: true,
         loading: true,
     }
@@ -55,6 +56,10 @@ export default class ProductPage extends Component{
                                 <span>
                                     <strong>Registro: </strong>{getStringDate(cli.createdAt)}
                                 </span>
+                                
+                                <div className="actions">
+                                    <LinkButton to={`/clients/edit/${cli._id}`} title="Editar"><MdEdit className="TableButton"/></LinkButton>
+                                </div>
                             </div>
                         </Profile>
                      </div>

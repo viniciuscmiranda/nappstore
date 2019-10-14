@@ -1,15 +1,14 @@
 import React, {Component} from 'react'
 import api from '../../services/api';
 import {getStringDate, getStringFloat} from '../../rules';
-
 import {SyncLoader} from 'react-spinners'
-import {Title, NoConnection, Loader} from '../../styles/styles';
+import {Title, NoConnection, Loader, LinkButton} from '../../styles/styles';
 import {Profile} from '../../styles/pageStyles';
 import {TableHeader, TableLayout} from '../../styles/tableStyles';
 import TableContent from './TableContent';
+import { MdEdit} from 'react-icons/md';
 
-
-export default class ProductPage extends Component{
+export default class SalePage extends Component{
     //State
     state = {
         sale: {},
@@ -36,6 +35,7 @@ export default class ProductPage extends Component{
         let price = 0;
         sale.products.map(prod => {
             price += prod.price * prod.amount;
+            return true;
         })
 
         return getStringFloat(price);
@@ -46,6 +46,7 @@ export default class ProductPage extends Component{
         let amount = 0;
         sale.products.map(prod => {
             amount += prod.amount;
+            return true;
         })
 
         return amount;
@@ -84,7 +85,12 @@ export default class ProductPage extends Component{
                                 <strong>Cliente: </strong>{clientName}
                             </span>
                         </div>
+                        
+                    <div className="actions">
+                        <LinkButton to={`/sales/edit/${sale._id}`} title="Editar"><MdEdit className="TableButton"/></LinkButton>
+                    </div>
                     </Profile>
+
          
                     {/* Line */}
                     <hr 

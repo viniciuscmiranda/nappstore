@@ -21,5 +21,20 @@ export const TableHeader = styled.th`
 export const TableData = styled.td `
     padding: 4px;
     text-align: center;
-    word-wrap: break-word;
+    word-break: break-all;
+  
 `;
+
+export const TableAction = styled.td `
+    display: flex;
+    justify-content: space-evenly;
+
+    @media (max-width: 960px){
+        flex-direction: column;
+        margin: 16px 0;
+
+        *{
+            text-align: center;
+        }
+    }
+`
